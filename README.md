@@ -55,10 +55,10 @@ The first line contains the name of the fruit followed by the weight of the frui
 
 In this section, you will write a Python script named changeImage.py to process the supplier images. You will be using the PIL library to update all images within ~/supplier-data/images directory to the following specifications:
 
-*Size: Change image resolution from 3000x2000 to 600x400 pixel
-*Format: Change image format from .TIFF to .JPEG
+* Size: Change image resolution from 3000x2000 to 600x400 pixel
+* Format: Change image format from .TIFF to .JPEG
 
-Create and open the file using nano editor.
+Create and open the file using vi editor.
 ```
 vi ~/changeImage.py
 ```
@@ -93,7 +93,7 @@ Output:
 
 
 >__Note:__ Click Check my progress to verify the objective.
-
+(Update Images)
 
 ## Uploading images to web server
 You have modified the fruit images through changeImage.py script. Now, you will have to upload these modified images to the web server that is handling the fruit catalog. To do that, you'll have to use the Python requests module to send the file contents to the [linux-instance-IP-Address]/upload URL.
@@ -131,7 +131,7 @@ vi ~/supplier_image_upload.py
 ```
 Complete the script with the same technique as used in the file example_upload.py.
 
-Once you have completed editing the supplier_image_upload.py script, save the file by typing ':wq'..
+Once you have completed editing the supplier_image_upload.py script, save the file by typing ':wq'.
 
 Grant executable permission to the supplier_image_upload.py script.
 ```
@@ -148,7 +148,7 @@ Output:
 
 
 >__Note:__ Click Check my progress to verify the objective.
-Upload images to the web server
+(Upload images to the web server)
 
 ## Uploading the descriptions
 The Django server is already set up to show the fruit catalog for your company. You can visit the main website by entering linux-instance-IP-Address in the URL bar or by removing /media/images from the existing URL opened earlier. The interface looks like this:
@@ -160,10 +160,11 @@ Check out the Django REST framework, by navigating to linux-instance-IP-Address/
 
 
 Currently, there are no products in the fruit catalog web-server. You can create a test fruit entry by entering the following into the content field:
-
->{"name": "Test Fruit", "weight": 100, "description": "This is the description of my test fruit", "image_name": "icon.sheet.png"}
-
+~~~
+{"name": "Test Fruit", "weight": 100, "description": "This is the description of my test fruit", "image_name": "icon.sheet.png"}
+~~~
 After entering the above data into the content field click on the POST button. Now visit the main page of your website (by going to http://[linux-instance-external-IP]/), and the new test fruit you uploaded appears.
+
 ![image](https://github.com/cleatherbury/Automage_updating_catalog_information/assets/49545285/290c93b1-8d58-4498-bebe-1d9a18af7dd5)
 
 
@@ -171,7 +172,7 @@ To add fruit images and their descriptions from the supplier on the fruit catalo
 
 Write a Python script named run.py to process the text files (001.txt, 003.txt ...) from the supplier-data/descriptions directory. The script should turn the data into a JSON dictionary by adding all the required fields, including the image associated with the fruit (image_name), and uploading it to http://[linux-instance-external-IP]/fruits using the Python requests library.
 
-Create run.py using the nano editor:
+Create run.py using the vi editor:
 
 ```
 vi ~/run.py
@@ -187,15 +188,16 @@ import requests
 
 Now, you'll have to process the .txt files (named 001.txt, 002.txt, ...) in the supplier-data/descriptions/ directory and save them in a data structure so that you can then upload them via JSON. Note that all files are written in the following format, with each piece of information on its own line:
 
-*name
-*weight (in lbs)
-*description
+* name
+* weight (in lbs)
+* description
 
 The data model in the Django application fruit has the following fields: name, weight, description and image_name. The weight field is defined as an integer field. So when you process the weight information of the fruit from the .txt file, you need to convert it into an integer. For example if the weight is __"500 lbs"__, you need to __drop "lbs" and convert "500" to an integer__.
 
 The image_name field will allow the system to find the image associated with the fruit. Don't forget to add all fields, including the image_name! The final JSON object should be similar to:
-
->{"name": "Watermelon", "weight": 500, "description": "Watermelon is good for relieving heat, eliminating annoyance and quenching thirst. It contains a lot of water, which is good for relieving the symptoms of acute fever immediately. The sugar and salt contained in watermelon can diuretic and eliminate kidney inflammation. Watermelon also contains substances that can lower blood pressure.", "image_name": "010.jpeg"}
+~~~
+{"name": "Watermelon", "weight": 500, "description": "Watermelon is good for relieving heat, eliminating annoyance and quenching thirst. It contains a lot of water, which is good for relieving the symptoms of acute fever immediately. The sugar and salt contained in watermelon can diuretic and eliminate kidney inflammation. Watermelon also contains substances that can lower blood pressure.", "image_name": "010.jpeg"}
+~~~
 
 Iterate over all the fruits and use __post__ method from Python requests library to upload all the data to the URL http://[linux-instance-external-IP]/fruits
 
@@ -238,7 +240,7 @@ weight: 200 lbs
 ...
 
 ## Script to generate a PDF report
-Create a script reports.py to generate PDF report to supplier using the nano editor:
+Create a script reports.py to generate PDF report to supplier using the vi editor:
 ```
 vi ~/reports.py
 ```
@@ -252,7 +254,7 @@ Once you have finished editing the script reports.py, save the file by typing ':
 
 Create another script named report_email.py to process supplier fruit description data from supplier-data/descriptions directory. Use the following command to create report_email.py.
 ```
-nano ~/report_email.py
+vi ~/report_email.py
 ```
 Add a shebang line.
 ~~~
@@ -279,15 +281,15 @@ Once you have completed this, call the main method which will process the data a
 .if __name__ == "__main__":
 
 You will need to pass the following arguments to the reports.generate_report method: the text description processed from the text files as the paragraph argument, the report title as the title argument, and the file path of the PDF to be generated as the attachment argument (use ‘/tmp/processed.pdf')
-
-  >reports.generate_report(attachment, title, paragraph)
-
+```
+reports.generate_report(attachment, title, paragraph)
+```
 Once you have completed the report_email.py script. Save the file by typing ':wq'.
 
 ## Send report through email
 Once the PDF is generated, you need to send the email using the emails.generate_email() and emails.send_email() methods.
 
-Create emails.py using the nano editor using the following command:
+Create emails.py using the vi editor using the following command:
 ```
 vi ~/emails.py
 ```
@@ -295,7 +297,7 @@ Define generate_email and send_email methods by importing necessary libraries.
 
 Once you have finished editing the emails.py script, save the file by typing ':wq'.
 
-Now, open the report_email.py script using the nano editor:
+Now, open the report_email.py script using the vi editor:
 ```
 vi ~/report_email.py
 ```
@@ -306,10 +308,14 @@ if __name__ == "__main__":
 Use the following details to pass the parameters to emails.generate_email():
 
 __From:__ automation@example.com
+
 __To:__ username@example.com
   *Replace username with the username given in the Connection Details Panel on the right hand side.
+
 __Subject line:__ Upload Completed - Online Fruit Store
+
 __E-mail Body:__ All fruits are uploaded to our website successfully. A detailed list is attached to this email.
+
 __Attachment:__ Attach the path to the file processed.pdf
 Once you have finished editing the report_email.py script, save the file by typing ':wq'.
 
@@ -339,7 +345,8 @@ This is the last part of the lab, where you will have to write a Python script n
 *Report an error if available disk space is lower than 20%
 *Report an error if available memory is less than 500MB
 *Report an error if the hostname "localhost" cannot be resolved to "127.0.0.1"
-Create a python script named health_check.py using the nano editor:
+
+Create a python script named health_check.py using the vi editor:
 ```
 vi ~/health_check.py
 ```
@@ -352,8 +359,11 @@ Import the necessary Python libraries (eg. shutil, psutil) to write this script.
 Complete the script to check the system statistics every 60 seconds, and in event of any issues detected among the ones mentioned above, an email should be sent with the following content:
 
 __From:__ automation@example.com
+
 __To:__ username@example.com
+
 *Replace username with the username given in the Connection Details Panel on the right hand side.
+
 __Subject line:__
 | Case | Subject line |
 | --- | --- |
@@ -363,7 +373,9 @@ __Subject line:__
 | hostname "localhost" cannot be resolved to "127.0.0.1" | Error - localhost cannot be resolved to 127.0.0.1 |
 
 __E-mail Body:__ Please check your system and resolve the issue as soon as possible.
+
 >__Note:__ There is no attachment file here, so you must be careful while defining the generate_email() method in the emails.py script or you can create a separate generate_error_report() method for handling non-attachment email.
+
 Once you have completed the health_check.py script. Save the file by typing ":wq'.
 
 Grant executable permissions to the script health_check.py.
@@ -419,7 +431,7 @@ Output:
 ![image](https://github.com/cleatherbury/Automage_updating_catalog_information/assets/49545285/0670eb88-bd50-4057-8b7d-41e14a598a3d)
 
 
-Enter 1 to open in the nano editor. Now, set the complete path for health_check.py script, and save by typing ":wq'.
+Enter 3 to open in the vi basic editor. Now, set the complete path for health_check.py script, and save by typing ":wq'.
 
 Output:
 ![image](https://github.com/cleatherbury/Automage_updating_catalog_information/assets/49545285/3702ca27-4833-4c5a-b040-dc2fb426881b)
