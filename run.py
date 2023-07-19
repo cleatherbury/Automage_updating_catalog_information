@@ -6,21 +6,18 @@ import json
 
 import requests
 
-fd = os.path.join(os.getcwd(),'supplier-data', 'descriptions')
-osld = os.listdir(fd)
-url = "http://localhost/fruits"
 
 def create_dd():# Iterate over the files in the feedback directory
   ddl = []
   for filename in osld:
-    filepath = os.join(fd, filename)
+    filepath = os.path.join(fd, filename)
     if not filename.startswith('.'):
       with open(filepath, "r") as f:
       # Extract the title, name, date, and feedback 
         fruit = f.readline().strip()
-        weight = int(f.readline().rstrip(' lbs'))
+        weight = int(f.readline().strip().replace('lbs', ''))
         description = f.read().strip()
-        img = filename.split('.')[0] + 'jpeg'
+        img = os.path.splitext(filename)[0] + 'jpeg'
         dd = {"fruit": fruit, "weight": weight, "description": description,"image": img}
         ddl.append(dd)
       print(ddl)
@@ -38,3 +35,16 @@ def upload_json(ddj):
       print('Data sent accepted')
     else:
       print('Data sent rejected')
+
+def main():
+  fd = os.path.join(os.getcwd(),'supplier-data', 'descriptions')
+  osld = os.listdir(fd)
+  url = "https://httpbin.org/post"
+  ddl=create_dd()
+  ddj=convert_to_json(ddl)
+  upload_json(ddj)
+
+
+
+if __name__ == '__main__':
+  main()

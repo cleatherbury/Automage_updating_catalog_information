@@ -4,13 +4,18 @@ import os
 
 def change_image():
   directory = os.getcwd() + '/supplier-data/images'
-  dir_list = os.listdir(directory)
+  osld = os.listdir(directory)
   print(directory)
-  for filename in dir_list:
-    if 'LICENSE' not in filename and 'README' not in filename:
-      path=os.path.join(directory, filename)
-      new_path = os.path.join(directory, filename)
+  for img in osld:
+    if 'tiff' in img:
+      path = os.path.join(directory, img)
+      new_path = os.path.join(directory, img)
       new_path = os.path.splitext(new_path)[0] + '.jpg'
-    with Image.open(path) as image:
-      image.resize((600,400), Image.BICUBIC).convert('RGB').save(new_path, 'JPEG')
+      with Image.open(path) as t:
+        t.resize((600,400), Image.BICUBIC).convert('RGB').save(new_path, 'JPEG')
 
+def main():
+  change_image()
+
+__name__ == '__main__'
+main()
