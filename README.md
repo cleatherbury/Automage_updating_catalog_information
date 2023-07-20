@@ -1,4 +1,4 @@
-# Automage_updating_catalog_information
+# Automate_updating_catalog_information
 
 ## Fetching supplier data
 
