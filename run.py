@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
-
 import os
-
 import json
-
 import requests
-
+import ChangeImage
+from supplier_image_upload import img_upload
 
 def create_dd():# Iterate over the files in the feedback directory
   ddl = []
@@ -18,10 +16,8 @@ def create_dd():# Iterate over the files in the feedback directory
         weight = int(f.readline().strip().replace('lbs', ''))
         description = f.read().strip()
         img = os.path.splitext(filename)[0] + 'jpeg'
-        dd = {"fruit": fruit, "weight": weight, "description": description,"image": img}
+        dd = {"name": fruit, "weight (in lbs)": weight, "description": description,"image": img}
         ddl.append(dd)
-      print(ddl)
-
   return ddl
 
 def convert_to_json(ddl):
@@ -37,11 +33,13 @@ def upload_json(ddj):
       print('Data sent rejected')
 
 def main():
+  ChangeImage()
+  img_upload()
   fd = os.path.join(os.getcwd(),'supplier-data', 'descriptions')
   osld = os.listdir(fd)
   url = "https://httpbin.org/post"
-  ddl=create_dd()
-  ddj=convert_to_json(ddl)
+  ddl = create_dd()
+  ddj = convert_to_json(ddl)
   upload_json(ddj)
 
 
