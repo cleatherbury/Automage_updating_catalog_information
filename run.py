@@ -1,48 +1,23 @@
 #!/usr/bin/env python3
-import os
-import json
-import requests
-import ChangeImage
-from supplier_image_upload import img_upload
+import os, sys, time
+import json, requests
 
-def create_dd():# Iterate over the files in the feedback directory
-  ddl = []
-  for filename in osld:
-    filepath = os.path.join(fd, filename)
-    if not filename.startswith('.'):
-      with open(filepath, "r") as f:
-      # Extract the title, name, date, and feedback 
-        fruit = f.readline().strip()
-        weight = int(f.readline().strip().replace('lbs', ''))
-        description = f.read().strip()
-        img = os.path.splitext(filename)[0] + 'jpeg'
-        dd = {"name": fruit, "weight (in lbs)": weight, "description": description,"image": img}
-        ddl.append(dd)
-  return ddl
-
-def convert_to_json(ddl):
-  ddj = json.dumps(ddl)
-  return ddj
-      
-
-def upload_json(ddj):     
-    response = requests.post(url, data=ddj)
-    if response.status_code == 200:
-      print('Data sent accepted')
-    else:
-      print('Data sent rejected')
-
-def main():
-  ChangeImage()
-  img_upload()
-  fd = os.path.join(os.getcwd(),'supplier-data', 'descriptions')
-  osld = os.listdir(fd)
-  url = "https://httpbin.org/post"
-  ddl = create_dd()
-  ddj = convert_to_json(ddl)
-  upload_json(ddj)
-
-
-
-if __name__ == '__main__':
-  main()
+fd = 'supplier-data/descriptions/'
+osld = os.listdir(fd)
+#url = "http://34.136.136.56/fruits/"
+url = "https://httpbin.org/anything"
+for fi in osld:
+  if fi.endswith('.txt'):
+    with open(fd + fi, "r") as f:
+      lines = f.readlines()
+      fruit = lines[0].strip()
+      weight = int(lines[1].strip().replace('lbs', ''))
+      description = lines[2].strip()
+      fdict = {"name": fruit, "weight": weight, "description": description, "image_name": fruit + '.jpeg"'}
+      print(fdict)
+      try:
+        r = requests.post(url, json=fd)
+        r.raise_for_status()
+        print(f"Data uploaded successfully")
+      except requests.exceptions.RequestException as e:
+        print(f"Error uploading data: {e}")+ '.jpeg'

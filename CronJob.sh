@@ -1,2 +1,3 @@
 cron -e 
-`* * * * * which python3 /cwd/health_check.py
+#'''sets cron job for health_check script every minute'''
+* * * * * /usr/bin/env python3 /path/to/this/file: health_check.py
